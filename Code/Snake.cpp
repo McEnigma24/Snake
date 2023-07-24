@@ -465,16 +465,20 @@ public:
     // Refreshing
     void visualizeMap()
     {
+        string buffer;
+
         for (size_t i = 0; i < height; i++)
         {
             for (size_t j = 0; j < length; j++)
             {
-                cout << (char)grid[i][j];
-                cout << columns_separator;
+                buffer += (char)grid[i][j];
+                buffer += (char)columns_separator;
             }
 
-            cout << rows_separator;
+            buffer += '\n';
         }
+
+        cout << buffer << endl;
     }
 
     void play()
