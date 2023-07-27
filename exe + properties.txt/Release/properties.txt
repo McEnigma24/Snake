@@ -13,7 +13,7 @@ apple = (*)
 // Time between new move //
 time = 300
 change = 25
-final_speed = 50
+final_speed = 125
 speed_limit = 150
 does_the_time_drop_after_limit = 1
 // Map visualizing //
