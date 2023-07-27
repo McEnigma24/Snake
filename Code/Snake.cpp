@@ -231,10 +231,9 @@ class Snake
     };
 
     bool sepereate_columns;
-    bool sepereate_rows;
+    bool sepereate_rows;    
     int time_in_between;
     int how_much_the_time_changes;
-
 
 
     vec2 grid;  size_t height;  size_t length;
@@ -243,6 +242,7 @@ class Snake
     move move_user_input;
     move move_before_pause;
     bool pause;
+    bool first_division;
     vector<snake_fragment> vec_snake_segments;
 
 public:
@@ -251,7 +251,7 @@ public:
     Snake(size_t h, size_t l, int tib, int change_tib, bool sep_columns = true, bool sep_rows = true)
         :sepereate_columns(sep_columns), sepereate_rows(sep_rows), time_in_between(tib), how_much_the_time_changes(change_tib),
         grid(h + 1, vec1(l + 1, background)), height(h), length(l),
-        pos_apple(-1, -1), move_current(0, 1), move_user_input(0, 1), move_before_pause(0, 1), pause(false)
+        pos_apple(-1, -1), move_current(0, 1), move_user_input(0, 1), move_before_pause(0, 1), pause(false), first_division(true)        
     {
         vec_snake_segments.reserve(100);
         vec_snake_segments.emplace_back(h / 2, l / 2, -1, -1); // first is head, second is NULL -1, -1
@@ -290,7 +290,7 @@ public:
         int key_pressed = 0;
 
 
-        while ((std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() != miliseconds))
+        while ((std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() < miliseconds))
         {
             end = std::chrono::system_clock::now();
 
@@ -449,7 +449,11 @@ public:
 
             apple_eaten = false;
 
-            if (do_we_have_MEDIUM_SPEED && time_in_between < MEDIUM_SPEED) how_much_the_time_changes /= 2;
+            if (first_division && do_we_have_MEDIUM_SPEED && time_in_between < MEDIUM_SPEED)
+            {
+                how_much_the_time_changes /= 2;
+                first_division = false;
+            }
             if (time_in_between < FINAL_SPEED) how_much_the_time_changes = 0;
 
             time_in_between -= how_much_the_time_changes;
@@ -542,7 +546,7 @@ public:
 
 int main()
 {
-    srand((unsigned int)time(NULL));    
+    srand((unsigned int)time(NULL));
 
     loadInfoFromFile();
 
